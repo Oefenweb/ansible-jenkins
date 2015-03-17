@@ -1,13 +1,15 @@
+# vars file for jenkins
 ---
-jenkins_dest: /opt/jenkins
-jenkins_lib: /var/lib/jenkins
-jenkins:
-  deb:
-    repo: 'deb http://pkg.jenkins-ci.org/debian binary/' # Jenkins repository
-    dependencies: # Jenkins dependencies
-      - 'openjdk-7-jre'
-      - 'openjdk-7-jdk'
-      - 'git'
-      - 'curl'
-  cli_dest: '{{ jenkins_dest }}/jenkins-cli.jar' # Jenkins CLI destination
-  updates_dest: '{{ jenkins_dest }}/updates_jenkins.json' # Jenkins updates file
+jenkins_repositories:
+  - type: deb
+    url: "http://pkg.jenkins-ci.org/debian"
+    component: binary/
+jenkins_dependencies:
+  - curl
+jenkins_java_dependencies:
+  - openjdk-7-jre
+  - openjdk-7-jdk
+jenkins_url: "http://localhost:{{ jenkins_http_port }}"
+jenkins_cli_jar: "{{ jenkins_cli_path }}/jenkins-cli.jar"
+jenkins_updates_path: "{{ jenkins_home }}/updates"
+jenkins_plugins_path: "{{ jenkins_home }}/plugins"

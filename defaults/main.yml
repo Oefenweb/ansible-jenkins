@@ -1,9 +1,20 @@
+# defaults file for jenkins
 ---
-placeholder: 'placeholder'
-port: 8080
-# plugins:
-#   - 'ldap'
-#   - 'github'
-#   - 'translation'
-#   - 'preSCMbuildstep'
-#   - 'gravatar'
+jenkins_assume_java_provided: false
+jenkins_http_port: 8080
+jenkins_prefix: /jenkins
+jenkins_user: jenkins
+jenkins_group: jenkins
+jenkins_home: /var/lib/jenkins
+jenkins_cli_path: /opt/jenkins
+jenkins_plugins: []
+
+jenkins_tasks_mailer_manage: true
+jenkins_tasks_mailer_default_suffix: '@localhost.localdomain'
+jenkins_tasks_mailer_smtp_host: localhost
+jenkins_tasks_mailer_smtp_port: 25
+jenkins_tasks_mailer_use_ssl: false
+jenkins_tasks_mailer_use_smtp_auth: false
+jenkins_tasks_mailer_smtp_auth_username: ''
+jenkins_tasks_mailer_smtp_auth_password: ''
+jenkins_tasks_mailer_charset: UTF-8
