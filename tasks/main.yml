@@ -1,2 +1,8 @@
+# tasks file for jenkins
 ---
-- include: jenkins.yml tags=jenkins
+- include: repository.yml
+- include: install.yml
+- include: configure.yml
+- include: cli.yml
+- include: updates.yml
+- include: plugins.yml

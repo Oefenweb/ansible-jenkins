@@ -1,0 +1,7 @@
+# test file for jenkins
+---
+- hosts: all
+  remote_user: vagrant
+  sudo: true
+  roles:
+    - jenkins

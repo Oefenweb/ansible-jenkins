@@ -1,0 +1,23 @@
+# tasks file for jenkins
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: jenkins_dependencies
+  when: jenkins_dependencies
+  tags: [configuration, jenkins, jenkins-dependencies]
+
+- name: install dependencies (java)
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: jenkins_java_dependencies
+  when: jenkins_assume_java_provided == false and jenkins_java_dependencies
+  tags: [configuration, jenkins, jenkins-dependencies-java]
+
+- name: install
+  apt:
+    name: jenkins
+    state: latest
+  register: jenkins_install
+  tags: [configuration, jenkins, jenkins-install]

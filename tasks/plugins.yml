@@ -1,22 +1,37 @@
+# tasks file for jenkins
 ---
-- name: List plugins
-  shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:{{ port }} list-plugins | cut -f 1 -d ' '
-  when: plugins is defined
-  register: plugins_installed
+- name: create (plugins) directory
+  file:
+    path: "{{ jenkins_plugins_path }}"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0755
+  tags: [configuration, jenkins, jenkins-plugins-directory]
 
-- name: Install/update plugins
-  shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:{{ port }} install-plugin {{ item }}
-  when: plugins_installed.changed and plugins_installed.stdout.find('{{ item }}') == -1
-  with_items: plugins
-  notify:
-    - 'Restart Jenkins'
+- name: list installed plugins
+  shell: "java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | awk '{ print $1 }'"
+  when: jenkins_plugins
+  register: jenkins_plugins_installed
+  changed_when: False
+  tags: [configuration, jenkins, jenkins-plugins-installed]
 
-- name: List plugins to be updated
-  shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:{{ port }} list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
-  register: plugins_updates
+- name: install (new) plugins
+  command: "java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}"
+  when: jenkins_plugins and item not in jenkins_plugins_installed.stdout_lines
+  with_items: jenkins_plugins
+  notify: restart jenkins
+  tags: [configuration, jenkins, jenkins-plugins-install]
 
-- name: Update plugins
-  shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:{{ port }} install-plugin {{ plugins_updates.stdout }}
-  when: plugins_updates.stdout != ''
-  notify:
-    - 'Restart Jenkins'
+- name: list updatable plugins
+  shell: "java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | grep -e ')$' | awk '{ print $1 }'"
+  register: jenkins_plugins_updatable
+  changed_when: False
+  tags: [configuration, jenkins, jenkins-plugins-updatable]
+
+- name: update (existing) plugins
+  command: "java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}"
+  when: jenkins_plugins_updatable.stdout_lines
+  with_items: jenkins_plugins_updatable.stdout_lines
+  notify: restart jenkins
+  tags: [configuration, jenkins, jenkins-plugins-update]

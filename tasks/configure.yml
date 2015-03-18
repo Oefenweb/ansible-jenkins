@@ -1,0 +1,29 @@
+# tasks file for jenkins
+---
+- name: update configuration file
+  template:
+    src: etc/default/jenkins.j2
+    dest: /etc/default/jenkins
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart jenkins
+  tags: [configuration, jenkins, jenkins-configuration]
+
+- name: configure email (tasks mailer)
+  template:
+    src: var/lib/jenkins/hudson.tasks.Mailer.xml.j2
+    dest: "{{ jenkins_home }}/hudson.tasks.Mailer.xml"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0644
+  notify: restart jenkins
+  when: jenkins_tasks_mailer_manage
+  tags: [configuration, jenkins, jenkins-configuration-tasks-mailer]
+
+- name: start and enable service
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+  tags: [configuration, jenkins, jenkins-start-enable-service]

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.tasks.Mailer_-DescriptorImpl>
+  <defaultSuffix>{{ jenkins_tasks_mailer_default_suffix }}</defaultSuffix>
+  <smtpHost>{{ jenkins_tasks_mailer_smtp_host }}</smtpHost>
+  <smtpPort>{{ jenkins_tasks_mailer_smtp_port }}</smtpPort>
+  <useSsl>{{ jenkins_tasks_mailer_use_ssl }}</useSsl>
+  {% if jenkins_tasks_mailer_use_smtp_auth %}
+  <smtpAuthUsername>{{ jenkins_tasks_mailer_smtp_auth_username }}</smtpAuthUsername>
+  <smtpAuthPassword>{{ jenkins_tasks_mailer_smtp_auth_password }}</smtpAuthPassword>
+  {% endif %}
+  <charset>{{ jenkins_tasks_mailer_charset }}</charset>
+</hudson.tasks.Mailer_-DescriptorImpl>
