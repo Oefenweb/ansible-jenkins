@@ -13,7 +13,7 @@
   shell: "java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | awk '{ print $1 }'"
   when: jenkins_plugins
   register: jenkins_plugins_installed
-  changed_when: False
+  changed_when: false
   tags: [configuration, jenkins, jenkins-plugins-installed]
 
 - name: install (new) plugins
@@ -26,7 +26,7 @@
 - name: list updatable plugins
   shell: "java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | grep -e ')$' | awk '{ print $1 }'"
   register: jenkins_plugins_updatable
-  changed_when: False
+  changed_when: false
   tags: [configuration, jenkins, jenkins-plugins-updatable]
 
 - name: update (existing) plugins

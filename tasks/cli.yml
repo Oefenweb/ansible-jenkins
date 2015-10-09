@@ -6,7 +6,7 @@
   until: "jenkins_online.stdout == '200'"
   retries: 10
   delay: 10
-  changed_when: False
+  changed_when: false
   tags: [configuration, jenkins, jenkins-online]
 
 - name: create (client) directory

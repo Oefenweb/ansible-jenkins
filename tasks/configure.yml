@@ -25,5 +25,5 @@
   service:
     name: jenkins
     state: started
-    enabled: yes
+    enabled: true
   tags: [configuration, jenkins, jenkins-start-enable-service]

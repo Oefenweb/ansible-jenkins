@@ -4,7 +4,6 @@
     name: "{{ item }}"
     state: latest
   with_items: jenkins_dependencies
-  when: jenkins_dependencies
   tags: [configuration, jenkins, jenkins-dependencies]
 
 - name: install dependencies (java)
