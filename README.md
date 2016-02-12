@@ -11,6 +11,7 @@ Set up (the latest version of) jenkins in Ubuntu systems.
 
 #### Variables
 
+* `jenkins_install` [default: `[]`]: (Additional) Packages to install
 * `jenkins_assume_java_provided` [default: `false`]: Whether or not to assume that java (`jre` and `jdk`) is already installed
 * `jenkins_http_port` [default: `8080`]: Port for HTTP connector
 * `jenkins_prefix` [default: `/jenkins`]: Servlet context, important if you want to use apache proxying

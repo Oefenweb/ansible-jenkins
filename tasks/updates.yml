@@ -22,5 +22,5 @@
 - name: update update-center
   shell: "sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json"
   notify: restart jenkins
-  when: jenkins_install | changed
+  when: jenkins_installation_status | changed
   tags: [configuration, jenkins, jenkins-updates-download]
