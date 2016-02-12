@@ -1,5 +1,6 @@
 # defaults file for jenkins
 ---
+jenkins_install: []
 jenkins_assume_java_provided: false
 jenkins_http_port: 8080
 jenkins_prefix: /jenkins

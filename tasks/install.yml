@@ -6,6 +6,13 @@
   with_items: jenkins_dependencies
   tags: [configuration, jenkins, jenkins-dependencies]
 
+- name: install additional
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: jenkins_install
+  tags: [configuration, jenkins, jenkins-additional]
+
 - name: install dependencies (java)
   apt:
     name: "{{ item }}"
@@ -18,5 +25,5 @@
   apt:
     name: jenkins
     state: latest
-  register: jenkins_install
+  register: jenkins_installation_status
   tags: [configuration, jenkins, jenkins-install]
