@@ -12,14 +12,22 @@ Set up (the latest version of) jenkins in Ubuntu systems.
 #### Variables
 
 * `jenkins_install` [default: `[]`]: (Additional) Packages to install
+
 * `jenkins_assume_java_provided` [default: `false`]: Whether or not to assume that java (`jre` and `jdk`) is already installed
-* `jenkins_http_port` [default: `8080`]: Port for HTTP connector
-* `jenkins_prefix` [default: `/jenkins`]: Servlet context, important if you want to use apache proxying
+
+* `jenkins_java_args` [default: `['-Djava.awt.headless=true']`]: Java arguments to pass
 * `jenkins_user` [default: `jenkins`]: User to be invoked as
 * `jenkins_group` [default: `jenkins`]: Group to be invoked as
 * `jenkins_home` [default: `/var/lib/jenkins`]: Home directory (of jenkins user)
+* `jenkins_http_port` [default: `8080`]: Port for HTTP connector
+* `jenkins_ajp_port` [default: `-1`]: Port for AJP connector
+* `jenkins_prefix` [default: `/jenkins`]: Servlet context, important if you want to use apache proxying
+* `jenkins_args` [default: `['--webroot=/var/cache/jenkins/war', '--httpPort=$HTTP_PORT', '--ajp13Port=$AJP_PORT']`]: Jenkins arguments to pass
+
 * `jenkins_cli_path` [default: `/opt/jenkins`]: Client installation path
+
 * `jenkins_plugins` [default: `[]`]: Plugins to install
+
 * `jenkins_tasks_mailer_manage` [default: `true`]: Whether or not to manage `hudson.tasks.Mailer.xml` (for sending notifications)
 * `jenkins_tasks_mailer_default_suffix` [default: `'@localhost.localdomain'`]: Default user e-mail suffix
 * `jenkins_tasks_mailer_smtp_host` [default: `localhost`]: SMTP server
@@ -44,7 +52,7 @@ None
 ---
 - hosts: all
   roles:
-  - jenkins
+    - jenkins
 ```
 
 #### License

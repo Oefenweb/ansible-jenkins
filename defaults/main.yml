@@ -1,13 +1,24 @@
 # defaults file for jenkins
 ---
 jenkins_install: []
+
 jenkins_assume_java_provided: false
-jenkins_http_port: 8080
-jenkins_prefix: /jenkins
+
+jenkins_java_args:
+  - '-Djava.awt.headless=true'
 jenkins_user: jenkins
 jenkins_group: jenkins
 jenkins_home: /var/lib/jenkins
+jenkins_http_port: 8080
+jenkins_ajp_port: -1
+jenkins_prefix: /jenkins
+jenkins_args:
+  - '--webroot=/var/cache/jenkins/war'
+  - '--httpPort=$HTTP_PORT'
+  - '--ajp13Port=$AJP_PORT'
+
 jenkins_cli_path: /opt/jenkins
+
 jenkins_plugins: []
 
 jenkins_tasks_mailer_manage: true

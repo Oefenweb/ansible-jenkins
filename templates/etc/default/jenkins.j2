@@ -9,9 +9,7 @@ NAME=jenkins
 JAVA=/usr/bin/java
 
 # arguments to pass to java
-JAVA_ARGS="-Djava.awt.headless=true"  # Allow graphs etc. to work even when an X server is present
-#JAVA_ARGS="-Xmx256m"
-#JAVA_ARGS="-Djava.net.preferIPv4Stack=true" # make jenkins listen on IPv4 address
+JAVA_ARGS="{{ jenkins_java_args | join(' ') }}"
 
 PIDFILE=/var/run/jenkins/jenkins.pid
 
@@ -59,7 +57,7 @@ MAXOPENFILES=8192
 HTTP_PORT={{ jenkins_http_port }}
 
 # port for AJP connector (disabled by default)
-AJP_PORT=-1
+AJP_PORT={{ jenkins_ajp_port }}
 
 # servlet context, important if you want to use apache proxying
 PREFIX={{ jenkins_prefix }}
@@ -74,4 +72,4 @@ PREFIX={{ jenkins_prefix }}
 # --webroot=~/.jenkins/war
 # --prefix=$PREFIX
 
-JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpPort=$HTTP_PORT --ajp13Port=$AJP_PORT"
+JENKINS_ARGS="{{ jenkins_args | join(' ') }}"
