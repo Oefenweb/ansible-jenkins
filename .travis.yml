@@ -44,7 +44,7 @@ before_install:
   - sudo apt-get update -qq
 
   # Remove jenkins
-  - sudo apt-get remove --purge jenkins
+  - sudo apt-get remove --purge --yes jenkins
 
 install:
   # Install Ansible.
