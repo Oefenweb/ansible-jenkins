@@ -2,9 +2,9 @@
 ---
 - name: wait for server to come online
   command: >
-    curl -s -o /dev/null -I -w '%{http_code}' -u admin:{{ get_initial_admin_password.stdout }} {{ jenkins_url }}/cli/
+    curl --fail --silent --output /dev/null --head --user admin:{{ get_initial_admin_password.stdout }} {{ jenkins_url }}/cli/
   register: jenkins_online
-  until: "jenkins_online.stdout == '200'"
+  until: "jenkins_online.rc == 0"
   retries: 10
   delay: 10
   changed_when: false

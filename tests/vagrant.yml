@@ -5,3 +5,6 @@
   sudo: true
   roles:
     - ../../
+  vars:
+    jenkins_plugins:
+      - git
