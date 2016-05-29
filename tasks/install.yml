@@ -27,3 +27,9 @@
     state: latest
   register: jenkins_installation_status
   tags: [configuration, jenkins, jenkins-install]
+
+- name: get initial admin password
+  command: cat {{ jenkins_home }}/secrets/initialAdminPassword
+  register: get_initial_admin_password
+  changed_when: false
+  tags: [configuration, jenkins, jenkins-install, jenkins-get-initial-admin-password]

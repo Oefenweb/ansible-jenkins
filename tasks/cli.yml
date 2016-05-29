@@ -1,7 +1,8 @@
 # tasks file for jenkins
 ---
 - name: wait for server to come online
-  command: "curl -s -o /dev/null -I -w '%{http_code}' {{ jenkins_url }}/cli/"
+  command: >
+    curl -s -o /dev/null -I -w '%{http_code}' -u admin:{{ get_initial_admin_password.stdout }} {{ jenkins_url }}/cli/
   register: jenkins_online
   until: "jenkins_online.stdout == '200'"
   retries: 10

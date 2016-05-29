@@ -11,7 +11,7 @@
 
 - name: get (latest) updates
   get_url:
-    url: https://updates.jenkins-ci.org/update-center.json
+    url: https://updates.jenkins-ci.org/current/update-center.json
     dest: "{{ jenkins_updates_path }}"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
