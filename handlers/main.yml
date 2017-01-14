@@ -6,4 +6,4 @@
     state: restarted
 
 - name: safe-restart jenkins
-  command: "java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} safe-restart"
+  command: java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} safe-restart
