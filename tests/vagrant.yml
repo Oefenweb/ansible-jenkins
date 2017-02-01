@@ -2,6 +2,11 @@
 ---
 - hosts: all
   remote_user: vagrant
-  sudo: true
+  become: true
   roles:
     - ../../
+  vars:
+    jenkins_plugins:
+      - git
+
+    jenkins_tasks_mailer_manage: false

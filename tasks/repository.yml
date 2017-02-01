@@ -2,8 +2,8 @@
 ---
 - name: repository | public key
   apt_key:
-    id: D50582E6
-    url: https://jenkins-ci.org/debian/jenkins-ci.org.key
+    id: 9B7D32F2D50582E6
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
     state: present
   tags:
     - jenkins-repository-public-key

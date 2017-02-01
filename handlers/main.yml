@@ -5,5 +5,18 @@
     name: jenkins
     state: restarted
 
-- name: safe-restart jenkins
-  command: java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} safe-restart
+- name: logout jenkins cli
+  shell: >
+    java -jar {{ jenkins_cli_jar }}
+    -s '{{ jenkins_url }}'
+    --username={{ jenkins_admin_username }} --password={{ jenkins_admin_password }}
+    logout
+  ignore_errors: true
+
+- name: logout jenkins cli with password file
+  shell: >
+    java -jar {{ jenkins_cli_jar }}
+    -s '{{ jenkins_url }}'
+    --username={{ jenkins_admin_username }} --password-file={{ jenkins_admin_password_file }}
+    logout
+  ignore_errors: true

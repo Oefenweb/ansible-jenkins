@@ -1,11 +1,14 @@
 # tasks file for jenkins
 ---
 - name: cli | wait for server to come online
-  command: curl -sSL -o /dev/null -I -w '%{http_code}' {{ jenkins_url }}/cli/
+  command: curl -sSLD - {{ jenkins_url }}/cli/
   register: _jenkins_online
-  until: "_jenkins_online.stdout == '200'"
-  retries: 10
-  delay: 10
+  until: >
+    (_jenkins_online.stdout.find("403 Forbidden") != -1)
+    or (_jenkins_online.stdout.find("200 OK") != -1)
+    and (_jenkins_online.stdout.find("Please wait while") == -1)
+  retries: "{{ jenkins_connection_retries }}"
+  delay: "{{ jenkins_connection_delay }}"
   changed_when: false
   tags:
     - jenkins-cli-online
@@ -29,7 +32,43 @@
     mode: 0644
   register: _jenkins_cli_download
   until: "'OK' in _jenkins_cli_download.msg or 'file already exists' in _jenkins_cli_download.msg"
-  retries: 10
-  delay: 10
+  retries: "{{ jenkins_connection_retries }}"
+  delay: "{{ jenkins_connection_delay }}"
   tags:
     - jenkins-cli-download
+
+- name: cli | remove custom init script after first startup
+  file:
+    path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    state: absent
+  tags:
+    - jenkins-cli-remove-custom-init-script
+
+- name: cli | check password file for authentication
+  stat:
+    path: "{{ jenkins_admin_password_file }}"
+  register: _jenkins_check_password_file
+  tags:
+    - jenkins-cli-remove-custom-init-script
+
+#- name: cli | login
+#  command: >
+#    java -jar {{ jenkins_cli_jar }}
+#    -s '{{ jenkins_url }}'
+#    login
+#    --username={{ jenkins_admin_username }} --password={{ jenkins_admin_password }}
+#  when: _jenkins_check_password_file.stat.exists == false
+#  notify: logout jenkins cli
+#  tags:
+#    - jenkins-plugins-install
+#
+#- name: cli | login (with password file)
+#  command: >
+#    java -jar {{ jenkins_cli_jar }}
+#    -s '{{ jenkins_url }}'
+#    login
+#    --username={{ jenkins_admin_username }} --password-file={{ jenkins_admin_password_file }}
+#  when: _jenkins_check_password_file.stat.exists == true
+#  notify: logout jenkins cli with password file
+#  tags:
+#    - jenkins-plugins-install

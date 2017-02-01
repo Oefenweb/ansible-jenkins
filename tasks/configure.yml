@@ -7,7 +7,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart jenkins
+  register: _jenkins_update_etc_default
   tags:
     - jenkins-configure-etc-default
 
@@ -23,10 +23,28 @@
   tags:
     - jenkins-configure-tasks-mailer
 
+- name: configure | create custom init scripts directory
+  file:
+    path: "{{ jenkins_home }}/init.groovy.d"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0775
+  tags:
+    - jenkins-configure-restart-service
+
+- name: configure | immediately restart on init config changes
+  service:
+    name: jenkins
+    state: restarted
+  when: _jenkins_update_etc_default | changed
+  tags:
+    - jenkins-configure-restart-service
+
 - name: configure | start and enable service
   service:
     name: jenkins
     state: started
     enabled: true
   tags:
-    - jenkins-configure-start-enable-service]
+    - jenkins-configure-start-enable-service

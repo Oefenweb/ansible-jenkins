@@ -28,6 +28,5 @@
   apt:
     name: jenkins
     state: "{{ apt_install_state | default('latest') }}"
-  register: _jenkins_installation_status
   tags:
     - jenkins-install-jenkins

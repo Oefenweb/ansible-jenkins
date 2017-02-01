@@ -6,6 +6,8 @@ jenkins_assume_java_provided: false
 
 jenkins_java_args:
   - '-Djava.awt.headless=true'
+  - '-Djenkins.install.runSetupWizard=false'
+  - '-Dhudson.diyChunking=false'
 jenkins_user: jenkins
 jenkins_group: jenkins
 jenkins_home: /var/lib/jenkins
@@ -17,7 +19,14 @@ jenkins_args:
   - '--httpPort=$HTTP_PORT'
   - '--ajp13Port=$AJP_PORT'
 
+jenkins_connection_retries: 10
+jenkins_connection_delay: 10
+
 jenkins_cli_path: /opt/jenkins
+
+jenkins_admin_username: admin
+jenkins_admin_password: admin
+jenkins_admin_password_file: ''
 
 jenkins_plugins: []
 

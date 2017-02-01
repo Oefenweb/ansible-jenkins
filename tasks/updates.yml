@@ -10,20 +10,43 @@
   tags:
     - jenkins-updates-directory
 
-- name: updates | get (latest)
-  get_url:
-    url: https://updates.jenkins-ci.org/update-center.json
-    dest: "{{ jenkins_updates_path }}"
+- name: updates | stat before
+  stat:
+    path: "{{ jenkins_updates_path }}/update-center.json"
+  register: _jenkins_updates_stat_before
+  tags:
+    - jenkins-updates-download
+
+- name: updates | download
+  shell: >
+    curl -sSL
+    https://updates.jenkins-ci.org/update-center.json
+    -o {{ jenkins_updates_path }}/update-center.json
+  changed_when: false
+  tags:
+    - jenkins-updates-download
+
+- name: updates | permissions
+  file:
+    path: "{{ jenkins_updates_path }}/update-center.json"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
     mode: 0644
-  register: _jenkins_updates_download
+  tags:
+    - jenkins-updates-download
+
+- name: updates | stat after
+  stat:
+    path: "{{ jenkins_updates_path }}/update-center.json"
+  register: _jenkins_updates_stat_after
   tags:
     - jenkins-updates-download
 
 - name: updates | update update-center
   shell: sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json
   notify: restart jenkins
-  when: _jenkins_updates_download | changed
+  when: >
+    _jenkins_updates_stat_before.stat.checksum is defined
+    and _jenkins_updates_stat_before.stat.checksum != _jenkins_updates_stat_after.stat.checksum
   tags:
     - jenkins-updates-download

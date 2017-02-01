@@ -11,7 +11,10 @@
     - jenkins-plugins-directory
 
 - name: plugins | list installed
-  shell: java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | awk '{ print $1 }'
+  shell: >
+    java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins
+    --username {{ jenkins_admin_username }} --password {{ jenkins_admin_password }}
+    | awk '{ print $1 }'
   when: jenkins_plugins | length
   register: _jenkins_plugins_installed
   changed_when: false
@@ -19,7 +22,9 @@
     - jenkins-plugins-installed
 
 - name: plugins | install (new)
-  command: java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}
+  command: >
+    java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}
+    --username {{ jenkins_admin_username }} --password {{ jenkins_admin_password }}
   when: item not in _jenkins_plugins_installed.stdout_lines
   with_items: "{{ jenkins_plugins }}"
   notify: restart jenkins
@@ -27,14 +32,19 @@
     - jenkins-plugins-install
 
 - name: plugins | list updatable
-  shell: java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | grep -e ')$' | awk '{ print $1 }'
+  shell: >
+    java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins
+    --username {{ jenkins_admin_username }} --password {{ jenkins_admin_password }}
+    | grep -e ')$' | awk '{ print $1 }'
   register: _jenkins_plugins_updatable
   changed_when: false
   tags:
     - jenkins-plugins-updatable
 
 - name: plugins | update (existing)
-  command: java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}
+  command: >
+    java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}
+    --username {{ jenkins_admin_username }} --password {{ jenkins_admin_password }}
   with_items: "{{ _jenkins_plugins_updatable.stdout_lines }}"
   notify: restart jenkins
   tags:
