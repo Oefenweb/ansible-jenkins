@@ -1,26 +1,52 @@
 # tasks file for jenkins
 ---
-- name: create (updates) directory
+- name: updates | create directory
   file:
     path: "{{ jenkins_updates_path }}"
     state: directory
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
     mode: 0755
-  tags: [configuration, jenkins, jenkins-updates-directory]
+  tags:
+    - jenkins-updates-directory
 
-- name: get (latest) updates
-  get_url:
-    url: https://updates.jenkins-ci.org/update-center.json
-    dest: "{{ jenkins_updates_path }}"
+- name: updates | stat before
+  stat:
+    path: "{{ jenkins_updates_path }}/update-center.json"
+  register: _jenkins_updates_stat_before
+  tags:
+    - jenkins-updates-download
+
+- name: updates | download
+  shell: >
+    curl -sSL
+    https://updates.jenkins-ci.org/update-center.json
+    -o {{ jenkins_updates_path }}/update-center.json
+  changed_when: false
+  tags:
+    - jenkins-updates-download
+
+- name: updates | permissions
+  file:
+    path: "{{ jenkins_updates_path }}/update-center.json"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
     mode: 0644
-  register: jenkins_updates_download
-  tags: [configuration, jenkins, jenkins-updates-download]
+  tags:
+    - jenkins-updates-download
 
-- name: update update-center
-  shell: "sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json"
+- name: updates | stat after
+  stat:
+    path: "{{ jenkins_updates_path }}/update-center.json"
+  register: _jenkins_updates_stat_after
+  tags:
+    - jenkins-updates-download
+
+- name: updates | update update-center
+  shell: sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json
   notify: restart jenkins
-  when: jenkins_installation_status | changed
-  tags: [configuration, jenkins, jenkins-updates-download]
+  when: >
+    _jenkins_updates_stat_before.stat.checksum is defined
+    and _jenkins_updates_stat_before.stat.checksum != _jenkins_updates_stat_after.stat.checksum
+  tags:
+    - jenkins-updates-download

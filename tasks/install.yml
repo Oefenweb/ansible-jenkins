@@ -1,29 +1,32 @@
 # tasks file for jenkins
-- name: install dependencies
+- name: install | dependencies
   apt:
     name: "{{ item }}"
-    state: latest
-  with_items: jenkins_dependencies
-  tags: [configuration, jenkins, jenkins-dependencies]
+    state: "{{ apt_install_state | default('latest') }}"
+  with_items: "{{ jenkins_dependencies }}"
+  tags:
+    - jenkins-install-dependencies
 
-- name: install additional
+- name: install | additional
   apt:
     name: "{{ item }}"
-    state: latest
-  with_items: jenkins_install
-  tags: [configuration, jenkins, jenkins-additional]
+    state: "{{ apt_install_state | default('latest') }}"
+  with_items: "{{ jenkins_install }}"
+  tags:
+    - jenkins-install-additional
 
-- name: install dependencies (java)
+- name: install | dependencies (java)
   apt:
     name: "{{ item }}"
-    state: latest
-  with_items: jenkins_java_dependencies
-  when: jenkins_assume_java_provided == false and jenkins_java_dependencies
-  tags: [configuration, jenkins, jenkins-dependencies-java]
+    state: "{{ apt_install_state | default('latest') }}"
+  with_items: "{{ jenkins_java_dependencies }}"
+  when: jenkins_assume_java_provided == false
+  tags:
+    - jenkins-install-dependencies-java]
 
-- name: install
+- name: install | jenkins
   apt:
     name: jenkins
-    state: latest
-  register: jenkins_installation_status
-  tags: [configuration, jenkins, jenkins-install]
+    state: "{{ apt_install_state | default('latest') }}"
+  tags:
+    - jenkins-install-jenkins

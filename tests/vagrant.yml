@@ -5,3 +5,8 @@
   become: true
   roles:
     - ../../
+  vars:
+    jenkins_plugins:
+      - git
+
+    jenkins_tasks_mailer_manage: false

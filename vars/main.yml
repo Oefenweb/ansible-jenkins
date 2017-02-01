@@ -2,7 +2,7 @@
 ---
 jenkins_repositories:
   - type: deb
-    url: "http://pkg.jenkins-ci.org/debian"
+    url: 'http://pkg.jenkins-ci.org/debian'
     component: binary/
 jenkins_dependencies:
   - curl

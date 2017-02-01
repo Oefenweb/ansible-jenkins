@@ -1,32 +1,74 @@
 # tasks file for jenkins
 ---
-- name: wait for server to come online
-  command: "curl -s -o /dev/null -I -w '%{http_code}' {{ jenkins_url }}/cli/"
-  register: jenkins_online
-  until: "jenkins_online.stdout == '200'"
-  retries: 10
-  delay: 10
+- name: cli | wait for server to come online
+  command: curl -sSLD - {{ jenkins_url }}/cli/
+  register: _jenkins_online
+  until: >
+    (_jenkins_online.stdout.find("403 Forbidden") != -1)
+    or (_jenkins_online.stdout.find("200 OK") != -1)
+    and (_jenkins_online.stdout.find("Please wait while") == -1)
+  retries: "{{ jenkins_connection_retries }}"
+  delay: "{{ jenkins_connection_delay }}"
   changed_when: false
-  tags: [configuration, jenkins, jenkins-online]
+  tags:
+    - jenkins-cli-online
 
-- name: create (client) directory
+- name: cli | create directory
   file:
     path: "{{ jenkins_cli_path }}"
     state: directory
     owner: root
     group: root
     mode: 0755
-  tags: [configuration, jenkins, jenkins-cli-directory]
+  tags:
+    - jenkins-cli-directory
 
-- name: download (latest) client
+- name: cli | download (latest)
   get_url:
     url: "{{ jenkins_url }}/jnlpJars/jenkins-cli.jar"
     dest: "{{ jenkins_cli_path }}"
     owner: root
     group: root
     mode: 0644
-  register: jenkins_cli_download
-  until: "'OK' in jenkins_cli_download.msg or 'file already exists' in jenkins_cli_download.msg"
-  retries: 10
-  delay: 10
-  tags: [configuration, jenkins, jenkins-cli-download]
+  register: _jenkins_cli_download
+  until: "'OK' in _jenkins_cli_download.msg or 'file already exists' in _jenkins_cli_download.msg"
+  retries: "{{ jenkins_connection_retries }}"
+  delay: "{{ jenkins_connection_delay }}"
+  tags:
+    - jenkins-cli-download
+
+- name: cli | remove custom init script after first startup
+  file:
+    path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    state: absent
+  tags:
+    - jenkins-cli-remove-custom-init-script
+
+- name: cli | check password file for authentication
+  stat:
+    path: "{{ jenkins_admin_password_file }}"
+  register: _jenkins_check_password_file
+  tags:
+    - jenkins-cli-remove-custom-init-script
+
+#- name: cli | login
+#  command: >
+#    java -jar {{ jenkins_cli_jar }}
+#    -s '{{ jenkins_url }}'
+#    login
+#    --username={{ jenkins_admin_username }} --password={{ jenkins_admin_password }}
+#  when: _jenkins_check_password_file.stat.exists == false
+#  notify: logout jenkins cli
+#  tags:
+#    - jenkins-plugins-install
+#
+#- name: cli | login (with password file)
+#  command: >
+#    java -jar {{ jenkins_cli_jar }}
+#    -s '{{ jenkins_url }}'
+#    login
+#    --username={{ jenkins_admin_username }} --password-file={{ jenkins_admin_password_file }}
+#  when: _jenkins_check_password_file.stat.exists == true
+#  notify: logout jenkins cli with password file
+#  tags:
+#    - jenkins-plugins-install
