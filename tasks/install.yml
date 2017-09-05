@@ -27,3 +27,15 @@
     state: latest
   register: jenkins_installation_status
   tags: [configuration, jenkins, jenkins-install]
+
+- name: wait for initial admin password file
+  wait_for:
+    path: "{{ jenkins_initial_admin_password_file }}"
+    state: present
+  tags: [configuration, jenkins, jenkins-install, jenkins-get-initial-admin-password]
+
+- name: get initial admin password
+  command: cat {{ jenkins_initial_admin_password_file }}
+  register: get_initial_admin_password
+  changed_when: false
+  tags: [configuration, jenkins, jenkins-install, jenkins-get-initial-admin-password]

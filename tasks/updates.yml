@@ -11,7 +11,7 @@
 
 - name: get (latest) updates
   get_url:
-    url: https://updates.jenkins-ci.org/update-center.json
+    url: "{{ jenkins_updates_url }}"
     dest: "{{ jenkins_updates_path }}"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
@@ -22,5 +22,5 @@
 - name: update update-center
   shell: "sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json"
   notify: restart jenkins
-  when: jenkins_installation_status | changed
+  when: jenkins_updates_download | changed
   tags: [configuration, jenkins, jenkins-updates-download]

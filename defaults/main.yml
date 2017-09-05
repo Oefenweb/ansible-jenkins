@@ -4,6 +4,8 @@ jenkins_install: []
 
 jenkins_assume_java_provided: false
 
+jenkins_url: "http://localhost:{{ jenkins_http_port }}"
+
 jenkins_java_args:
   - '-Djava.awt.headless=true'
 jenkins_user: jenkins
@@ -18,6 +20,8 @@ jenkins_args:
   - '--ajp13Port=$AJP_PORT'
 
 jenkins_cli_path: /opt/jenkins
+
+jenkins_updates_url: http://updates.jenkins-ci.org/current/update-center.json
 
 jenkins_plugins: []
 

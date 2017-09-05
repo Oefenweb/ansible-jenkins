@@ -9,7 +9,7 @@ jenkins_dependencies:
 jenkins_java_dependencies:
   - openjdk-7-jre
   - openjdk-7-jdk
-jenkins_url: "http://localhost:{{ jenkins_http_port }}"
 jenkins_cli_jar: "{{ jenkins_cli_path }}/jenkins-cli.jar"
 jenkins_updates_path: "{{ jenkins_home }}/updates"
 jenkins_plugins_path: "{{ jenkins_home }}/plugins"
+jenkins_initial_admin_password_file: "{{ jenkins_home }}/secrets/initialAdminPassword"
