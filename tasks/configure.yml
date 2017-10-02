@@ -1,16 +1,17 @@
 # tasks file for jenkins
 ---
-- name: update configuration file
+- name: configure | init file
   template:
     src: etc/default/jenkins.j2
     dest: /etc/default/jenkins
     owner: root
     group: root
     mode: 0644
-  notify: restart jenkins
-  tags: [configuration, jenkins, jenkins-configuration]
+  register: _jenkins_update_etc_default
+  tags:
+    - jenkins-configure-configuration
 
-- name: configure email (tasks mailer)
+- name: configure | email (tasks mailer)
   template:
     src: var/lib/jenkins/hudson.tasks.Mailer.xml.j2
     dest: "{{ jenkins_home }}/hudson.tasks.Mailer.xml"
@@ -19,11 +20,21 @@
     mode: 0644
   notify: restart jenkins
   when: jenkins_tasks_mailer_manage
-  tags: [configuration, jenkins, jenkins-configuration-tasks-mailer]
+  tags:
+    - jenkins-configure-tasks-mailer
 
-- name: start and enable service
+- name: configure | immediately restart on init changes
+  service:
+    name: jenkins
+    state: restarted
+  when: _jenkins_update_etc_default | changed
+  tags:
+    - jenkins-configure-restart-service
+
+- name: configure | start and enable service
   service:
     name: jenkins
     state: started
     enabled: true
-  tags: [configuration, jenkins, jenkins-start-enable-service]
+  tags:
+    - jenkins-configure-start-enable-service

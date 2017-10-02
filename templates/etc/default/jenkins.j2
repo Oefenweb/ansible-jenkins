@@ -1,35 +1,32 @@
 # {{ ansible_managed }}
 
-# defaults for jenkins continuous integration server
+# defaults for Jenkins automation server
 
 # pulled in from the init script; makes things easier.
-NAME=jenkins
-
-# location of java
-JAVA=/usr/bin/java
+NAME={{ jenkins_name }}
 
 # arguments to pass to java
 JAVA_ARGS="{{ jenkins_java_args | join(' ') }}"
 
-PIDFILE=/var/run/jenkins/jenkins.pid
+PIDFILE=/var/run/{{ jenkins_name }}/{{ jenkins_name }}.pid
 
 # user and group to be invoked as (default to jenkins)
 JENKINS_USER={{ jenkins_user }}
 JENKINS_GROUP={{ jenkins_group }}
 
 # location of the jenkins war file
-JENKINS_WAR=/usr/share/jenkins/jenkins.war
+JENKINS_WAR=/usr/share/{{ jenkins_name }}/{{ jenkins_name }}.war
 
 # jenkins home location
 JENKINS_HOME={{ jenkins_home }}
 
-# set this to false if you don't want Hudson to run by itself
+# set this to false if you don't want Jenkins to run by itself
 # in this set up, you are expected to provide a servlet container
 # to host jenkins.
 RUN_STANDALONE=true
 
 # log location.  this may be a syslog facility.priority
-JENKINS_LOG=/var/log/jenkins/$NAME.log
+JENKINS_LOG=/var/log/{{ jenkins_name }}/{{ jenkins_name }}.log
 #JENKINS_LOG=daemon.info
 
 # OS LIMITS SETUP
@@ -53,20 +50,19 @@ MAXOPENFILES=8192
 
 # UMASK=027
 
+# host for HTTP connector (default 0.0.0.0)
+HTTP_HOST={{ jenkins_http_host }}
 # port for HTTP connector (default 8080; disable with -1)
 HTTP_PORT={{ jenkins_http_port }}
-
-# port for AJP connector (disabled by default)
-AJP_PORT={{ jenkins_ajp_port }}
 
 # servlet context, important if you want to use apache proxying
 PREFIX={{ jenkins_prefix }}
 
 # arguments to pass to jenkins.
 # --javahome=$JAVA_HOME
+# --httpListenAddress=$HTTP_HOST (default 0.0.0.0)
 # --httpPort=$HTTP_PORT (default 8080; disable with -1)
 # --httpsPort=$HTTP_PORT
-# --ajp13Port=$AJP_PORT
 # --argumentsRealm.passwd.$ADMIN_USER=[password]
 # --argumentsRealm.roles.$ADMIN_USER=admin
 # --webroot=~/.jenkins/war
