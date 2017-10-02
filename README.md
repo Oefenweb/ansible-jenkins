@@ -26,7 +26,7 @@ Set up (the latest version of) jenkins in Ubuntu systems.
 
 * `jenkins_cli_path` [default: `/opt/jenkins`]: Client installation path
 
-* `jenkins_plugins` [default: `[]`]: Plugins to install
+* `jenkins_plugins` [default: `[]`]: Plugins to install (**Does not work (for now)**)
 
 * `jenkins_tasks_mailer_manage` [default: `true`]: Whether or not to manage `hudson.tasks.Mailer.xml` (for sending notifications)
 * `jenkins_tasks_mailer_default_suffix` [default: `'@localhost.localdomain'`]: Default user e-mail suffix
@@ -61,7 +61,7 @@ MIT
 
 #### Author Information
 
-Mischa ter Smitten (based on work of [ICTO](https://github.com/ICTO/ansible-jenkins))
+Mischa ter Smitten (based on work of [ICTO](https://github.com/ICTO/ansible-jenkins) and [geerlingguy](https://github.com/geerlingguy/ansible-role-jenkins))
 
 #### Feedback, bug-reports, requests, ...
 
