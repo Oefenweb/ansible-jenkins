@@ -2,13 +2,13 @@
 ---
 jenkins_repositories:
   - type: deb
-    url: "http://pkg.jenkins-ci.org/debian"
+    url: 'http://pkg.jenkins-ci.org/debian'
     component: binary/
 jenkins_dependencies:
   - curl
 jenkins_java_dependencies:
-  - openjdk-7-jre
-  - openjdk-7-jdk
+  - openjdk-8-jre
+  - openjdk-8-jdk
 jenkins_url: "http://localhost:{{ jenkins_http_port }}"
 jenkins_cli_jar: "{{ jenkins_cli_path }}/jenkins-cli.jar"
 jenkins_updates_path: "{{ jenkins_home }}/updates"

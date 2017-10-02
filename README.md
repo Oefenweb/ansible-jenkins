@@ -1,13 +1,13 @@
 ## jenkins
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-jenkins.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-jenkins) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-jenkins-blue.svg)](https://galaxy.ansible.com/list#/roles/3147)
+[![Build Status](https://travis-ci.org/Oefenweb/ansible-jenkins.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-jenkins) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-jenkins-blue.svg)](https://galaxy.ansible.com/tersmitten/jenkins)
 
 Set up (the latest version of) jenkins in Ubuntu systems.
 
 #### Requirements
 
 * `curl` (will be installed)
-* `openjdk-7-j(re|dk)` (will be installed when `jenkins_assume_java_provided` is `false` (default))
+* `openjdk-8-j(re|dk)` (will be installed when `jenkins_assume_java_provided` is `false` (default), May use `ppa:openjdk-r/ppa` as an installation source)
 
 #### Variables
 
@@ -22,11 +22,11 @@ Set up (the latest version of) jenkins in Ubuntu systems.
 * `jenkins_http_port` [default: `8080`]: Port for HTTP connector
 * `jenkins_ajp_port` [default: `-1`]: Port for AJP connector
 * `jenkins_prefix` [default: `/jenkins`]: Servlet context, important if you want to use apache proxying
-* `jenkins_args` [default: `['--webroot=/var/cache/jenkins/war', '--httpPort=$HTTP_PORT', '--ajp13Port=$AJP_PORT']`]: Jenkins arguments to pass
+* `jenkins_args` [default: `["--webroot=/var/cache/{{ jenkins_name }}/war", '--httpPort=$HTTP_PORT']`]: Jenkins arguments to pass
 
 * `jenkins_cli_path` [default: `/opt/jenkins`]: Client installation path
 
-* `jenkins_plugins` [default: `[]`]: Plugins to install
+* `jenkins_plugins` [default: `[]`]: Plugins to install (**Does not work (for now)**)
 
 * `jenkins_tasks_mailer_manage` [default: `true`]: Whether or not to manage `hudson.tasks.Mailer.xml` (for sending notifications)
 * `jenkins_tasks_mailer_default_suffix` [default: `'@localhost.localdomain'`]: Default user e-mail suffix
@@ -61,7 +61,7 @@ MIT
 
 #### Author Information
 
-Mischa ter Smitten (based on work of [ICTO](https://github.com/ICTO/ansible-jenkins))
+Mischa ter Smitten (based on work of [ICTO](https://github.com/ICTO/ansible-jenkins) and [geerlingguy](https://github.com/geerlingguy/ansible-role-jenkins))
 
 #### Feedback, bug-reports, requests, ...
 

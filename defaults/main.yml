@@ -6,18 +6,23 @@ jenkins_assume_java_provided: false
 
 jenkins_java_args:
   - '-Djava.awt.headless=true'
+  - '-Djava.net.preferIPv4Stack=true'
+jenkins_name: jenkins
 jenkins_user: jenkins
 jenkins_group: jenkins
-jenkins_home: /var/lib/jenkins
+jenkins_home: "/var/lib/{{ jenkins_name }}"
+jenkins_http_host: 0.0.0.0
 jenkins_http_port: 8080
-jenkins_ajp_port: -1
-jenkins_prefix: /jenkins
+jenkins_prefix: "/{{ jenkins_name }}"
 jenkins_args:
-  - '--webroot=/var/cache/jenkins/war'
+  - "--webroot=/var/cache/{{ jenkins_name }}/war"
   - '--httpPort=$HTTP_PORT'
-  - '--ajp13Port=$AJP_PORT'
 
-jenkins_cli_path: /opt/jenkins
+jenkins_connection_retries: 10
+jenkins_connection_delay: 10
+jenkins_cli_path: "/opt/{{ jenkins_name }}"
+
+jenkins_updates_url: http://updates.jenkins-ci.org/current/update-center.json
 
 jenkins_plugins: []
 
