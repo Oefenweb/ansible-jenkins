@@ -23,6 +23,6 @@
     update_cache: true
   when: >
     (jenkins_assume_java_provided == false)
-    and (ansible_distribution == 'Ubuntu' and ansible_distribution_version | version_compare('14.04', '<='))
+    and (ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('14.04', '<='))
   tags:
     - jenkins-repository-repository-java

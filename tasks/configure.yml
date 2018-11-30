@@ -27,7 +27,7 @@
   service:
     name: jenkins
     state: restarted
-  when: _jenkins_update_etc_default | changed
+  when: _jenkins_update_etc_default is changed
   tags:
     - jenkins-configure-restart-service
 
