@@ -1,6 +1,7 @@
 # meta file for jenkins
 ---
 galaxy_info:
+  role_name: jenkins
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.
   description: Set up jenkins in Ubuntu systems
