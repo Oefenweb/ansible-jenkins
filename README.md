@@ -1,6 +1,7 @@
 ## jenkins
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-jenkins.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-jenkins) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-jenkins-blue.svg)](https://galaxy.ansible.com/Oefenweb/jenkins)
+[![Build Status](https://travis-ci.org/Oefenweb/ansible-jenkins.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-jenkins)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-jenkins-blue.svg)](https://galaxy.ansible.com/Oefenweb/jenkins)
 
 Set up (the latest version of) jenkins in Ubuntu systems.
 

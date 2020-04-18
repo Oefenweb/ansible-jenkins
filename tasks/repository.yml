@@ -2,7 +2,7 @@
 ---
 - name: repository | add public key
   apt_key:
-    id: 9B7D32F2D50582E6
+    id: FCEF32E745F2C3D5
     url: https://pkg.jenkins.io/debian/jenkins.io.key
     state: present
   tags:
