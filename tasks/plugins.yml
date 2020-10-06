@@ -22,7 +22,9 @@
 - name: plugins | install (new)
   command: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}
-  when: jenkins_plugins and item not in _jenkins_plugins_installed.stdout_lines
+  when:
+    - jenkins_plugins
+    - item not in _jenkins_plugins_installed.stdout_lines
   with_items: "{{ jenkins_plugins }}"
   notify: restart jenkins
   tags:

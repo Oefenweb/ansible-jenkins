@@ -19,7 +19,7 @@
     group: "{{ jenkins_group }}"
     mode: 0644
   notify: restart jenkins
-  when: jenkins_tasks_mailer_manage
+  when: jenkins_tasks_mailer_manage | bool
   tags:
     - jenkins-configure-tasks-mailer
 

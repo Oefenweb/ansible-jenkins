@@ -1,17 +1,15 @@
 # tasks file for jenkins
 - name: install | dependencies
   apt:
-    name: "{{ item }}"
+    name: "{{ jenkins_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
-  with_items: "{{ jenkins_dependencies }}"
   tags:
     - jenkins-install-dependencies
 
 - name: install | additional
   apt:
-    name: "{{ item }}"
+    name: "{{ jenkins_install }}"
     state: "{{ apt_install_state | default('latest') }}"
-  with_items: "{{ jenkins_install }}"
   tags:
     - jenkins-install-additional
 
@@ -20,7 +18,7 @@
     name: "{{ item }}"
     state: "{{ apt_install_state | default('latest') }}"
   with_items: "{{ jenkins_java_dependencies }}"
-  when: jenkins_assume_java_provided == false
+  when: not jenkins_assume_java_provided
   tags:
     - jenkins-install-dependencies
     - jenkins-install-dependencies-java

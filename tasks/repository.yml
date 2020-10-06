@@ -13,6 +13,7 @@
     repo: "{{ item.type }} {{ item.url }} {{ item.component }}"
     state: present
     update_cache: true
+    mode: 0644
   with_items: "{{ jenkins_repositories }}"
   tags:
     - jenkins-repository-repository
@@ -21,8 +22,10 @@
   apt_repository:
     repo: 'ppa:openjdk-r/ppa'
     update_cache: true
+    mode: 0644
   when: >
-    (jenkins_assume_java_provided == false)
-    and (ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('14.04', '<='))
+    - not jenkins_assume_java_provided
+    - ansible_distribution == 'Ubuntu'
+    - ansible_distribution_version is version('14.04', '<=')
   tags:
     - jenkins-repository-repository-java
