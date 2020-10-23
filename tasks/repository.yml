@@ -23,7 +23,7 @@
     repo: 'ppa:openjdk-r/ppa'
     update_cache: true
     mode: 0644
-  when: >
+  when:
     - not jenkins_assume_java_provided
     - ansible_distribution == 'Ubuntu'
     - ansible_distribution_version is version('14.04', '<=')

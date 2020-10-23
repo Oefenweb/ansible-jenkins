@@ -3,6 +3,8 @@
 - name: cli | wait for server to come online
   command: >
     curl -sSLD - {{ jenkins_url }}/cli/
+  args:
+    warn: false
   register: _jenkins_online
   until: >
     (_jenkins_online.stdout.find("403 Forbidden") != -1)

@@ -24,6 +24,8 @@
 - name: updates | update-center
   shell: >
     sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json
+  args:
+    warn: false
   notify: restart jenkins
   when: _jenkins_updates_download is changed
   tags:

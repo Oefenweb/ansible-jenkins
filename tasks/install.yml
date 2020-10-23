@@ -15,10 +15,9 @@
 
 - name: install | dependencies (java)
   apt:
-    name: "{{ item }}"
+    name: "{{ jenkins_java_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
-  with_items: "{{ jenkins_java_dependencies }}"
-  when: not jenkins_assume_java_provided
+  when: not jenkins_assume_java_provided | bool
   tags:
     - jenkins-install-dependencies
     - jenkins-install-dependencies-java
