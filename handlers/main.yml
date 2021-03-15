@@ -1,4 +1,4 @@
-# handlers file for jenkins
+# handlers file
 ---
 - name: restart jenkins
   service:

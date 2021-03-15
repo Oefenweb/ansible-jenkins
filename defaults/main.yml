@@ -1,4 +1,4 @@
-# defaults file for jenkins
+# defaults file
 ---
 jenkins_install: []
 

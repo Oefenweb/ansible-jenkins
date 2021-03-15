@@ -1,4 +1,4 @@
-# vars file for jenkins
+# vars file
 ---
 jenkins_repositories:
   - type: deb

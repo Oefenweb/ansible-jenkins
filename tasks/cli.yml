@@ -1,4 +1,4 @@
-# tasks file for jenkins
+# tasks file
 ---
 - name: cli | wait for server to come online
   command: >

@@ -1,4 +1,4 @@
-# tasks file for jenkins
+# tasks file
 ---
 - name: configure | init file
   template:
