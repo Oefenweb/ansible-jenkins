@@ -30,8 +30,8 @@
     - jenkins
     - jenkins-updates
 
-#- include: plugins.yml
-#  tags:
-#    - configuration
-#    - jenkins
-#    - jenkins-plugins
+# - include: plugins.yml
+#   tags:
+#     - configuration
+#     - jenkins
+#     - jenkins-plugins
