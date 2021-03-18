@@ -9,6 +9,7 @@ Set up (the latest version of) jenkins in Ubuntu systems.
 
 * `software-properties-common` (will be installed)
 * `dirmngr` (will be installed)
+* `apt-transport-https` (will be installed)
 * `curl` (will be installed)
 * `default-j(re|dk)` (will be installed when `jenkins_assume_java_provided` is `false` (default))
 
