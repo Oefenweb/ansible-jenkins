@@ -7,11 +7,12 @@ jenkins_repositories:
 jenkins_dependencies_pre:
   - software-properties-common
   - dirmngr
+  - apt-transport-https
 jenkins_dependencies:
   - curl
 jenkins_java_dependencies:
   - default-jre
-  - default-jre
+  - default-jdk
 jenkins_url: "http://localhost:{{ jenkins_http_port }}"
 jenkins_cli_jar: "{{ jenkins_cli_path }}/jenkins-cli.jar"
 jenkins_updates_path: "{{ jenkins_home }}/updates"
