@@ -1,5 +1,15 @@
 # tasks file
 ---
+- name: repository | install | dependencies (pre)
+  apt:
+    name: "{{ jenkins_dependencies_pre }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  tags:
+    - jenkins-repository-install
+    - jenkins-repository-install-dependencies
+
 - name: repository | add public key
   apt_key:
     id: FCEF32E745F2C3D5
@@ -17,15 +27,3 @@
   with_items: "{{ jenkins_repositories }}"
   tags:
     - jenkins-repository-repository
-
-- name: repository | add ppa (java)
-  apt_repository:
-    repo: 'ppa:openjdk-r/ppa'
-    update_cache: true
-    mode: 0644
-  when:
-    - not jenkins_assume_java_provided
-    - ansible_distribution == 'Ubuntu'
-    - ansible_distribution_version is version('14.04', '<=')
-  tags:
-    - jenkins-repository-repository-java

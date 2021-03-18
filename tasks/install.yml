@@ -1,4 +1,5 @@
 # tasks file
+---
 - name: install | dependencies
   apt:
     name: "{{ jenkins_dependencies }}"
@@ -13,10 +14,22 @@
   tags:
     - jenkins-install-additional
 
-- name: install | dependencies (java)
-  apt:
-    name: "{{ jenkins_java_dependencies }}"
-    state: "{{ apt_install_state | default('latest') }}"
+- block:
+
+    # See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
+    - name: ensure man directory
+      file:
+        path: /usr/share/man/man1
+        state: directory
+        recurse: true
+      when:
+        - ansible_distribution_major_version is version('18', '>=')
+
+    - name: install | dependencies (java)
+      apt:
+        name: "{{ jenkins_java_dependencies }}"
+        state: "{{ apt_install_state | default('latest') }}"
+
   when: not jenkins_assume_java_provided | bool
   tags:
     - jenkins-install-dependencies

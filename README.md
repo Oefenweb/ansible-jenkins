@@ -1,14 +1,16 @@
 ## jenkins
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-jenkins.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-jenkins)
+[![CI](https://github.com/Oefenweb/ansible-jenkins/workflows/CI/badge.svg)](https://github.com/Oefenweb/ansible-jenkins/actions?query=workflow%3ACI)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-jenkins-blue.svg)](https://galaxy.ansible.com/Oefenweb/jenkins)
 
 Set up (the latest version of) jenkins in Ubuntu systems.
 
 #### Requirements
 
+* `software-properties-common` (will be installed)
+* `dirmngr` (will be installed)
 * `curl` (will be installed)
-* `openjdk-8-j(re|dk)` (will be installed when `jenkins_assume_java_provided` is `false` (default), May use `ppa:openjdk-r/ppa` as an installation source)
+* `default-j(re|dk)` (will be installed when `jenkins_assume_java_provided` is `false` (default))
 
 #### Variables
 
