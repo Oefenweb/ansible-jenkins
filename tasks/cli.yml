@@ -1,10 +1,8 @@
 # tasks file
 ---
-- name: cli | wait for server to come online
+- name: cli | wait for server to come online  # noqa command-instead-of-module
   command: >
     curl -sSLD - {{ jenkins_url }}/cli/
-  args:
-    warn: false
   register: _jenkins_online
   until: >
     (_jenkins_online.stdout.find("403 Forbidden") != -1)

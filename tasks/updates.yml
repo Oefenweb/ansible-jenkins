@@ -21,11 +21,9 @@
   tags:
     - jenkins-updates-download
 
-- name: updates | update-center
+- name: updates | update-center  # noqa command-instead-of-module
   shell: >
     sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json
-  args:
-    warn: false
   notify: restart jenkins
   when: _jenkins_updates_download is changed
   tags:
