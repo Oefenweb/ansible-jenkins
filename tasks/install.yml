@@ -14,8 +14,12 @@
   tags:
     - jenkins-install-additional
 
-- block:
-
+- name: provide java
+  when: not jenkins_assume_java_provided | bool
+  tags:
+    - jenkins-install-dependencies
+    - jenkins-install-dependencies-java
+  block:
     # See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
     - name: ensure man directory
       file:
@@ -29,11 +33,6 @@
       apt:
         name: "{{ jenkins_java_dependencies }}"
         state: "{{ apt_install_state | default('latest') }}"
-
-  when: not jenkins_assume_java_provided | bool
-  tags:
-    - jenkins-install-dependencies
-    - jenkins-install-dependencies-java
 
 - name: install | jenkins
   apt:

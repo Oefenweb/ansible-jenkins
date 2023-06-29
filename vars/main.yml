@@ -1,13 +1,17 @@
 # vars file
 ---
+jenkins_keyring_src: https://pkg.jenkins.io/debian/jenkins.io-2023.key
+jenkins_keyring_dst: /usr/share/keyrings/jenkins-keyring.asc
 jenkins_repositories:
-  - type: deb
-    url: 'http://pkg.jenkins.io/debian'
-    component: binary/
+  - type: "deb [signed-by={{ jenkins_keyring_dst }}]"
+    url: 'https://pkg.jenkins.io/debian'
+    component: 'binary/'
 jenkins_dependencies_pre:
   - software-properties-common
   - dirmngr
   - apt-transport-https
+  - wget
+  - coreutils
 jenkins_dependencies:
   - curl
 jenkins_java_dependencies:

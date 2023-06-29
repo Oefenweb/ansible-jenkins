@@ -1,37 +1,43 @@
 # tasks file
 ---
-- include: repository.yml
+- name: repository
+  import_tasks: repository.yml
   tags:
     - configuration
     - jenkins
     - jenkins-repository
 
-- include: install.yml
+- name: install
+  import_tasks: install.yml
   tags:
     - configuration
     - jenkins
     - jenkins-install
 
-- include: configure.yml
+- name: configure
+  import_tasks: configure.yml
   tags:
     - configuration
     - jenkins
     - jenkins-configure
 
-- include: cli.yml
+- name: cli
+  import_tasks: cli.yml
   tags:
     - configuration
     - jenkins
     - jenkins-cli
 
-- include: updates.yml
+- name: updates
+  import_tasks: updates.yml
   tags:
     - configuration
     - jenkins
     - jenkins-updates
 
-# - include: plugins.yml
-#   tags:
+#- name: plugins
+#  import_tasks: plugins.yml
+#  tags:
 #     - configuration
 #     - jenkins
 #     - jenkins-plugins
