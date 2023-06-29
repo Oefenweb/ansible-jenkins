@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: updates | create directory
-  file:
+  ansible.builtin.file:
     path: "{{ jenkins_updates_path }}"
     state: directory
     owner: "{{ jenkins_user }}"
@@ -11,7 +11,7 @@
     - jenkins-updates-directory
 
 - name: updates | get (latest)
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ jenkins_updates_url }}"
     dest: "{{ jenkins_updates_path }}"
     owner: "{{ jenkins_user }}"
@@ -22,7 +22,7 @@
     - jenkins-updates-download
 
 - name: updates | update-center  # noqa command-instead-of-module
-  shell: >
+  ansible.builtin.shell: >
     sed '1d;$d' {{ jenkins_updates_path }}/update-center.json > {{ jenkins_updates_path }}/default.json
   notify: restart jenkins
   when: _jenkins_updates_download is changed

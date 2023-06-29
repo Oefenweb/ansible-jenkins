@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: cli | wait for server to come online  # noqa command-instead-of-module
-  command: >
+  ansible.builtin.command: >
     curl -sSLD - {{ jenkins_url }}/cli/
   register: _jenkins_online
   until: >
@@ -15,7 +15,7 @@
     - jenkins-cli-online
 
 - name: cli | create directory
-  file:
+  ansible.builtin.file:
     path: "{{ jenkins_cli_path }}"
     state: directory
     owner: root
@@ -25,7 +25,7 @@
     - jenkins-cli-directory
 
 - name: cli | download (latest)
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ jenkins_url }}/jnlpJars/jenkins-cli.jar"
     dest: "{{ jenkins_cli_path }}"
     owner: root

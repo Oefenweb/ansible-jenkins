@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: plugins | create directory
-  file:
+  ansible.builtin.file:
     path: "{{ jenkins_plugins_path }}"
     state: directory
     owner: "{{ jenkins_user }}"
@@ -10,8 +10,8 @@
   tags:
     - jenkins-plugins-directory
 
-- name: plugins | list installed
-  shell: >
+- name: plugins | list installed  # noqa risky-shell-pipe
+  ansible.builtin.shell: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | awk '{ print $1 }'
   when: jenkins_plugins
   register: _jenkins_plugins_installed
@@ -20,7 +20,7 @@
     - jenkins-plugins-installed
 
 - name: plugins | install (new)
-  command: >
+  ansible.builtin.command: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}
   when:
     - jenkins_plugins
@@ -30,8 +30,8 @@
   tags:
     - jenkins-plugins--install
 
-- name: plugins | list updatable
-  shell: >
+- name: plugins | list updatable  # noqa risky-shell-pipe
+  ansible.builtin.shell: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | grep -e ')$' | awk '{ print $1 }'
   register: _jenkins_plugins_updatable
   changed_when: false
@@ -39,7 +39,7 @@
     - jenkins-plugins-updatable
 
 - name: plugins | update (existing)
-  command: >
+  ansible.builtin.command: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} install-plugin {{ item }}
   when: _jenkins_plugins_updatable.stdout_lines
   with_items: "{{ _jenkins_plugins_updatable.stdout_lines }}"
