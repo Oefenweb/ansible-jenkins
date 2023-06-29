@@ -1,14 +1,14 @@
 # tasks file
 ---
 - name: install | dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ jenkins_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
   tags:
     - jenkins-install-dependencies
 
 - name: install | additional
-  apt:
+  ansible.builtin.apt:
     name: "{{ jenkins_install }}"
     state: "{{ apt_install_state | default('latest') }}"
   tags:
@@ -22,7 +22,7 @@
   block:
     # See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
     - name: ensure man directory
-      file:
+      ansible.builtin.file:
         path: /usr/share/man/man1
         state: directory
         recurse: true
@@ -30,12 +30,12 @@
         - ansible_distribution_major_version is version('18', '>=')
 
     - name: install | dependencies (java)
-      apt:
+      ansible.builtin.apt:
         name: "{{ jenkins_java_dependencies }}"
         state: "{{ apt_install_state | default('latest') }}"
 
 - name: install | jenkins
-  apt:
+  ansible.builtin.apt:
     name: jenkins
     state: "{{ apt_install_state | default('latest') }}"
   tags:

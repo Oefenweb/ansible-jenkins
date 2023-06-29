@@ -1,11 +1,11 @@
 # handlers file
 ---
 - name: restart jenkins
-  service:
+  ansible.builtin.service:
     name: jenkins
     state: restarted
   when: service_default_state | default('started') == 'started'
 
 - name: safe-restart jenkins
-  command: >
+  ansible.builtin.command: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} safe-restart

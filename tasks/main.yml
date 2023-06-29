@@ -1,42 +1,42 @@
 # tasks file
 ---
 - name: repository
-  import_tasks: repository.yml
+  ansible.builtin.import_tasks: repository.yml
   tags:
     - configuration
     - jenkins
     - jenkins-repository
 
 - name: install
-  import_tasks: install.yml
+  ansible.builtin.import_tasks: install.yml
   tags:
     - configuration
     - jenkins
     - jenkins-install
 
 - name: configure
-  import_tasks: configure.yml
+  ansible.builtin.import_tasks: configure.yml
   tags:
     - configuration
     - jenkins
     - jenkins-configure
 
 - name: cli
-  import_tasks: cli.yml
+  ansible.builtin.import_tasks: cli.yml
   tags:
     - configuration
     - jenkins
     - jenkins-cli
 
 - name: updates
-  import_tasks: updates.yml
+  ansible.builtin.import_tasks: updates.yml
   tags:
     - configuration
     - jenkins
     - jenkins-updates
 
 #- name: plugins
-#  import_tasks: plugins.yml
+#  ansible.builtin.import_tasks: plugins.yml
 #  tags:
 #     - configuration
 #     - jenkins
