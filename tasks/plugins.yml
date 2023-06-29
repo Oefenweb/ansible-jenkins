@@ -10,7 +10,7 @@
   tags:
     - jenkins-plugins-directory
 
-- name: plugins | list installed
+- name: plugins | list installed  # noqa risky-shell-pipe
   ansible.builtin.shell: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | awk '{ print $1 }'
   when: jenkins_plugins
@@ -30,7 +30,7 @@
   tags:
     - jenkins-plugins--install
 
-- name: plugins | list updatable
+- name: plugins | list updatable  # noqa risky-shell-pipe
   ansible.builtin.shell: >
     java -jar {{ jenkins_cli_jar }} -s {{ jenkins_url }} list-plugins | grep -e ')$' | awk '{ print $1 }'
   register: _jenkins_plugins_updatable

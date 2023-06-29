@@ -3,3 +3,5 @@ warn_list:
   - role-name
   - name[play]
   - name[casing]
+  - no-changed-when
+  - no-handler

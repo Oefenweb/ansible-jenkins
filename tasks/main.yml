@@ -35,9 +35,9 @@
     - jenkins
     - jenkins-updates
 
-#- name: plugins
-#  ansible.builtin.import_tasks: plugins.yml
-#  tags:
+# - name: plugins
+#   ansible.builtin.import_tasks: plugins.yml
+#   tags:
 #     - configuration
 #     - jenkins
 #     - jenkins-plugins
