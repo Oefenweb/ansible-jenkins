@@ -56,7 +56,7 @@ None
 ---
 - hosts: all
   roles:
-    - jenkins
+    - oefenweb.jenkins
 ```
 
 #### License
