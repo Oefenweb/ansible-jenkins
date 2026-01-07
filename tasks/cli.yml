@@ -20,7 +20,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   tags:
     - jenkins-cli-directory
 
@@ -30,7 +30,7 @@
     dest: "{{ jenkins_cli_path }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   register: _jenkins_cli_download
   until: "'OK' in _jenkins_cli_download.msg or 'file already exists' in _jenkins_cli_download.msg"
   retries: 10

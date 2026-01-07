@@ -1,6 +1,6 @@
 # vars file
 ---
-jenkins_keyring_src: https://pkg.jenkins.io/debian/jenkins.io-2023.key
+jenkins_keyring_src: https://pkg.jenkins.io/debian/jenkins.io-2026.key
 jenkins_keyring_dst: /usr/share/keyrings/jenkins-keyring.asc
 jenkins_repositories:
   - type: "deb [signed-by={{ jenkins_keyring_dst }}]"
