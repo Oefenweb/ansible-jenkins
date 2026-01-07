@@ -17,8 +17,9 @@ Set up (the latest version of) jenkins in Ubuntu systems.
 
 * `jenkins_install` [default: `[]`]: (Additional) Packages to install
 
-* `jenkins_assume_java_provided` [default: `false`]: Whether or not to assume that java (`jre` and `jdk`) is already installed
+* `jenkins_assume_java_provided` [default: `false`]: Whether to assume that java (`jre` and `jdk`) is already installed
 
+* `jenkins_java` [optional]: Java binary to use (e.g. `/usr/lib/jvm/java-21-openjdk-amd64/bin/java`)
 * `jenkins_java_args` [default: `['-Djava.awt.headless=true']`]: Java arguments to pass
 * `jenkins_user` [default: `jenkins`]: User to be invoked as
 * `jenkins_group` [default: `jenkins`]: Group to be invoked as
@@ -32,12 +33,12 @@ Set up (the latest version of) jenkins in Ubuntu systems.
 
 * `jenkins_plugins` [default: `[]`]: Plugins to install (**Does not work (for now)**)
 
-* `jenkins_tasks_mailer_manage` [default: `true`]: Whether or not to manage `hudson.tasks.Mailer.xml` (for sending notifications)
+* `jenkins_tasks_mailer_manage` [default: `true`]: Whether to manage `hudson.tasks.Mailer.xml` (for sending notifications)
 * `jenkins_tasks_mailer_default_suffix` [default: `'@localhost.localdomain'`]: Default user e-mail suffix
 * `jenkins_tasks_mailer_smtp_host` [default: `localhost`]: SMTP server
 * `jenkins_tasks_mailer_smtp_port` [default: `25`]: SMTP port
-* `jenkins_tasks_mailer_use_ssl` [default: `false`]: Whether or not to use ssl
-* `jenkins_tasks_mailer_use_smtp_auth` [default: `false`]: Whether or not to use SMTP Authentication
+* `jenkins_tasks_mailer_use_ssl` [default: `false`]: Whether to use ssl
+* `jenkins_tasks_mailer_use_smtp_auth` [default: `false`]: Whether to use SMTP Authentication
 * `jenkins_tasks_mailer_smtp_auth_username` [default: `''`]: SMTP Authentication username
 * `jenkins_tasks_mailer_smtp_auth_password` [default: `''`]: SMTP Authentication password
 * `jenkins_tasks_mailer_charset` [default: `UTF-8`]: Charset
@@ -49,6 +50,7 @@ None
 ## Recommended
 
 * `ansible-oracle-java` ([see](https://github.com/Oefenweb/ansible-oracle-java), when `jenkins_assume_java_provided` is `true`)
+* `ansible-openjdk` ([see](https://github.com/Oefenweb/ansible-openjdk), when `jenkins_assume_java_provided` is `true`)
 
 #### Example
 

@@ -1,9 +1,13 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 # defaults for Jenkins automation server
 
 # pulled in from the init script; makes things easier.
 NAME={{ jenkins_name }}
+
+{% if jenkins_java is defined %}
+JAVA={{ jenkins_java }}
+{% endif %}
 
 # arguments to pass to java
 JAVA_ARGS="{{ jenkins_java_args | join(' ') }}"

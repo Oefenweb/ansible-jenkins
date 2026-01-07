@@ -6,7 +6,7 @@
     dest: /etc/default/jenkins
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   register: _jenkins_update_etc_default
   tags:
     - jenkins-configure-configuration
@@ -17,7 +17,7 @@
     dest: "{{ jenkins_home }}/hudson.tasks.Mailer.xml"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
-    mode: 0644
+    mode: '0644'
   notify: restart jenkins
   when: jenkins_tasks_mailer_manage | bool
   tags:
