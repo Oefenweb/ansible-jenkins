@@ -27,7 +27,7 @@
         state: directory
         recurse: true
       when:
-        - ansible_distribution_major_version is version('18', '>=')
+        - ansible_facts['distribution_major_version'] is version('18', '>=')
 
     - name: install | dependencies (java)
       ansible.builtin.apt:
